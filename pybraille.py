@@ -16,20 +16,30 @@ https://python3.wannaphong.com
 
 เราต้องแก้ไขปัญหาในกรณีที่ตัวหนึ่งมีหลายเซลล์ด้วย เช่น ฅ มีสองเซลล์ คือ ⠤⠥ และต้องแก้ไขเวลาพิมพ์กลับด้าน ฅ คือ ⠬⠤
 '''
-class tob():
+class braille():
+	'''
+	โมดูลช่วยแปลงข้อมูลตามตำแหน่งจุดบนอักษรเบรลล์ เช่น   ⠧ ต้องกรอก "1356" ลงใน braille.inputnum("1356")
+	คำสั่งที่มี
+	=====
+	inputnum(ข้อมูลสตริงหรือ list) เป็นคำสั่งรับข้อมูลตามตำแหน่งจุดบนอักษรเบรลล์
+	tobraille() ใช้ส่งคืนอักษรเบรลล์
+	printbraille() ใช้สำหรับการพิมพ์อักษรเบรลล์ ซึ่งต้องกลับตำแหน่งอักษรเบรลล์ และจัดตำแหน่งจากหลังมาหน้า เพื่อให้ง่ายต่อการกดจุดทำหนังสืออักษรเบรลล์
+	
+	พัฒนา โดย นาย วรรณพงษ์ ภัททิยไพบูลย์
+	'''
 	def inputnum(self,data):
 		'''
 		ใช้ในการรับข้อมูลเข้ามา ได้ทั้งแบบ list ตัวเลขจุด และ str ตัวเลขจุด ในเซลล์
 		'''
 		self.inputdata=data
-		if type(data) == 'list': # หากข้อมูลเป็นชนิด list
-			if len(data)>1:
+		if str(type(data)) == "<class 'list'>": # หากข้อมูลเป็นชนิด list
+			if len(data)>1: # หากมี list มากกว่าหนึ่ง
 				self.data =['']*len(data) # สร้าง list ซ้อน list ตามจำนวนที่มี
 				self.i=0
 				while self.i<len(data): # ทำการลูปตามจำนวน list ที่ซ้อนใน data
-					self.data[self.i]=list(data[self.i]) # 
+					self.data[self.i]=sorted(list(data[self.i])) #  ทำการแปลงข้อมูลใน list ให้เป็น list
 					self.i+=1
-			else:
+			else: # หากมี ['12'] อันเดียว
 				self.data =sorted(list(data[0]))
 		else:
 			self.data = sorted(list(data)) # แปลงเป็น list พร้อมเรียงจากน้อยไปมาก
@@ -38,11 +48,11 @@ class tob():
 		'''
 		เอา [1,2,3,4] มาเป็น 1234 เรียงจากน้อยไปมาก
 		'''
-		if len(self.data)>1 and type(self.inputdata)=='list':
+		if len(self.data)>1 and str(type(self.inputdata)) == "<class 'list'>":
 			self.data1 =''
 			for o in self.data:
 				#print(o)
-				self.data1 += self.db[''.join(str(o))]
+				self.data1 += self.db[''.join(str(''.join(o)))]
 				#print(self.data1)
 			return self.data1
 		else:
@@ -58,8 +68,7 @@ class tob():
 		self.chage={'1':'2','2':'1','3':'4','4':'3','5':'6','6':'5','7':'8','8':'7'}
 		self.i=0
 		self.aa=[]*len(self.data)
-		self.printok=''
-		if len(self.data)>1 and type(self.inputdata)=='list':
+		if len(self.data)>1 and str(type(self.inputdata)) == "<class 'list'>":
 			self.data2=['']*len(self.data)
 			while self.i < len(self.data):
 				for a in self.data[self.i]:
@@ -67,7 +76,7 @@ class tob():
 				self.data2[self.i]=sorted(self.data2[self.i])
 				self.data2[self.i]=self.db[''.join(self.data2[self.i])]
 				self.i+=1
-			self.data2.reverse()
+			self.data2.reverse() # ทำการเรียงจากหลังไปหน้า
 			return ''.join(self.data2)
 		else:
 			self.data2=['']
