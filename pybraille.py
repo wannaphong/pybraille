@@ -21,12 +21,13 @@ class tob():
 		'''
 		ใช้ในการรับข้อมูลเข้ามา ได้ทั้งแบบ list ตัวเลขจุด และ str ตัวเลขจุด ในเซลล์
 		'''
+		self.inputdata=data
 		if type(data) == 'list': # หากข้อมูลเป็นชนิด list
 			if len(data)>1:
 				self.data =['']*len(data) # สร้าง list ซ้อน list ตามจำนวนที่มี
 				self.i=0
 				while self.i<len(data): # ทำการลูปตามจำนวน list ที่ซ้อนใน data
-					self.data[self.i]=sorted(list(data[self.i])) # 
+					self.data[self.i]=list(data[self.i]) # 
 					self.i+=1
 			else:
 				self.data =sorted(list(data[0]))
@@ -37,11 +38,12 @@ class tob():
 		'''
 		เอา [1,2,3,4] มาเป็น 1234 เรียงจากน้อยไปมาก
 		'''
-		if len(self.data)>1:
+		if len(self.data)>1 and type(self.inputdata)=='list':
 			self.data1 =''
 			for o in self.data:
-				self.data1 += self.db[''.join(o)]
-				print(self.data1)
+				#print(o)
+				self.data1 += self.db[''.join(str(o))]
+				#print(self.data1)
 			return self.data1
 		else:
 			self.data1 = ''.join(self.data) # แปลง list to str
@@ -53,12 +55,25 @@ class tob():
 		'''
 		กลับด้านตัวเลข
 		'''
-		self.data2=['']*len(self.data)
 		self.chage={'1':'2','2':'1','3':'4','4':'3','5':'6','6':'5','7':'8','8':'7'}
 		self.i=0
-		while self.i<len(self.data):
-			try:
-				self.data2[self.i] = self.chage[a]
-			except:
-				print('error')
-		return(self.db[''.join(sorted(self.data2))])
+		self.aa=[]*len(self.data)
+		self.printok=''
+		if len(self.data)>1 and type(self.inputdata)=='list':
+			self.data2=['']*len(self.data)
+			while self.i < len(self.data):
+				for a in self.data[self.i]:
+					self.data2[self.i] += self.chage[a]
+				self.data2[self.i]=sorted(self.data2[self.i])
+				self.data2[self.i]=self.db[''.join(self.data2[self.i])]
+				self.i+=1
+			self.data2.reverse()
+			return ''.join(self.data2)
+		else:
+			self.data2=['']
+			for a in self.data:
+				try:
+					self.data2.append(self.chage[a])
+				except:
+					print('error')
+			return(self.db[''.join(sorted(self.data2))])
